@@ -289,10 +289,12 @@ alias kgcj='kubecolor get cronjob'
 alias kdcj='kubecolor describe cronjob'
 alias kdelcj='kubecolor delete cronjob'
 
+# replicaset
 alias kgrs='kubecolor get rs'
 alias kdrs='kubecolor describe rs'
 alias kdelrs='kubecolor delete rs'
 
+# ValidatingWebhookConfiguration
 alias kgvwc='kubecolor get ValidatingWebhookConfiguration'
 alias kdvwc='kubecolor describe ValidatingWebhookConfiguration'
 alias kdelvwc='kubecolor delete ValidatingWebhookConfiguration'
@@ -306,9 +308,17 @@ ke() {
   kubectl exec -it $1 -- $2
 }
 
+# yaml
 alias kgdsy='kubecolor get DaemonSet -oyaml'
 alias kgcmy='kubecolor get configmaps -oyaml'
 alias kgpy='kubecolor get pods -oyaml'
 alias kgiy='kubecolor get ingress -oyaml'
 alias kgiy='kubecolor get ingress -oyaml'
 alias kgsecy='kubecolor get secret -oyaml'
+
+# kyverno - ClusterPolicy
+alias kgcp='kubeclolor get ClusterPolicy'
+alias kgcpy='kubeclolor get ClusterPolicy -o yaml'
+alias kdcp='kubeclolor describe ClusterPolicy'
+alias kdelcp='kubeclolor delete ClusterPolicy'
+
