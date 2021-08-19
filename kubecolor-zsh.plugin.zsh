@@ -317,8 +317,8 @@ alias kgiy='kubecolor get ingress -oyaml'
 alias kgsecy='kubecolor get secret -oyaml'
 
 # kyverno - ClusterPolicy
-alias kgcp='kubeclolor get ClusterPolicy'
-alias kgcpy='kubeclolor get ClusterPolicy -o yaml'
-alias kdcp='kubeclolor describe ClusterPolicy'
-alias kdelcp='kubeclolor delete ClusterPolicy'
+alias kgcp='kubecolor get ClusterPolicy'
+alias kgcpy='kubecolor get ClusterPolicy -o yaml'
+alias kdcp='kubecolor describe ClusterPolicy'
+alias kdelcp='kubecolor delete ClusterPolicy'
 
