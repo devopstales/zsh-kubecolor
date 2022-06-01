@@ -7,6 +7,24 @@ _fzf_complete_kgp() {
 
 _fzf_complete_kdelp() {
   _fzf_complete --multi --reverse --prompt="kdelp> " -- "$@" < <(
-    kgpn    
+    kgprn    
+  )
+}
+
+_fzf_complete_kdp() {
+  _fzf_complete --multi --reverse --prompt="kdp> " -- "$@" < <(
+    kgprn
+  )
+}
+
+_fzf_complete_kgpy() {
+  _fzf_complete --multi --reverse --prompt="kgpy> " -- "$@" < <(
+    kgprn
+  )
+}
+
+_fzf_complete_kdelpvc() {
+  _fzf_complete --multi --reverse --prompt="kdelpvc> " -- "$@" < <(
+    kgpvcn
   )
 }
