@@ -1,0 +1,12 @@
+
+_fzf_complete_kgp() {
+  _fzf_complete --multi --reverse --prompt="kgp> " -- "$@" < <(
+    kgprn    
+  )
+}
+
+_fzf_complete_kdelp() {
+  _fzf_complete --multi --reverse --prompt="kdelp> " -- "$@" < <(
+    kgpn    
+  )
+}
