@@ -14,7 +14,7 @@ Follow steps described in the official [GitHub Repo](https://github.com/hidetatz
 ### 3 - Install this custom plugin
 
 ```bash
-git clone git@github.com:devopstales/zsh-kubecolor.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-kubecolor
+git clone https://github.com/devopstales/zsh-kubecolor.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-kubecolor
 ```
 
 ### 4 - Add to ZSHRC
