@@ -21,6 +21,9 @@ alias kaf='kubecolor apply -f'
 
 # Drop into an interactive terminal on a container
 alias keti='kubecolor exec -ti'
+ke() {
+  kubectl exec -it $1 -- $2
+}
 
 # Manage configuration quickly to switch contexts between local, dev ad staging.
 alias kcuc='kubecolor config use-context'
@@ -32,18 +35,27 @@ alias kccc='kubecolor config current-context'
 alias kcgc='kubecolor config get-contexts'
 
 # General aliases
+alias kg='kubecolor get'
+alias kd='kubecolor describe'
 alias kdel='kubecolor delete'
 alias kdelf='kubecolor delete -f'
+alias kdelfo='kubecolor delete --grace-period=0 --force'
+
 
 # Pod management.
 alias kgp='kubecolor get pods'
 alias kgpa='kubecolor get pods --all-namespaces'
 alias kgpw='kgp --watch'
+alias kgpow='kgp -o wide'
+alias wkgpa='watch -n2 "kubectl get pods --all-namespaces"'
+alias wkgp='watch -n2 "kubectl get po"'
 alias kgpwide='kgp -o wide'
 alias kep='kubecolor edit pods'
 alias kdp='kubecolor describe pods'
 alias kdelp='kubecolor delete pods'
 alias kgpall='kubecolor get pods --all-namespaces -o wide'
+alias kdelpofo='kubecolor delete --grace-period=0 --force po'
+alias kgpae='kgpa | grep -v Running | grep -v Completed'
 
 # get pod by label: kgpl "app=myapp" -n myns
 alias kgpl='kgp -l'
@@ -156,6 +168,7 @@ alias kdelsa="kubecolor delete sa"
 
 # DaemonSet management.
 alias kgds='kubecolor get daemonset'
+alias kgdsy='kubecolor get DaemonSet -oyaml'
 alias kgdsw='kgds --watch'
 alias keds='kubecolor edit daemonset'
 alias kdds='kubecolor describe daemonset'
@@ -178,83 +191,18 @@ if (( ${+_comps[kubectl]} )); then
   compdef ky=kubectl
 fi
 
-
-alias kg='kubecolor get'
-alias kd='kubecolor describe'
-alias keti='kubecolor exec -ti'
-alias kgd='kubecolor get deployment'
-alias kgds='kubecolor get DaemonSet'
-alias kdds='kubecolor describe DaemonSet'
-alias kdelds='kubecolor delete DaemonSet'
-alias kgpw='kgp --watch'
-alias kgpwide='kgp -o wide'
-alias kdp='kubecolor describe pods'
-alias kdelp='kubecolor delete pods'
-# get pod by label: kgpl "app=myapp" -n myns
-alias kgpl='kgp -l'
-# get pod by namespace: kgpn kube-system"
-alias kgpn='kgp -n'
-alias kgs='kubecolor get svc'
-alias kgsa='kubecolor get svc --all-namespaces'
-alias kgsw='kgs --watch'
-alias kgswide='kgs -o wide'
-alias kes='kubecolor edit svc'
-alias kds='kubecolor describe svc'
-alias kdels='kubecolor delete svc'
-alias kgi='kubecolor get ingress'
-alias kgia='kubecolor get ingress --all-namespaces'
-alias kei='kubecolor edit ingress'
-alias kdi='kubecolor describe ingress'
-alias kdeli='kubecolor delete ingress'
-alias kgns='kubecolor get namespaces'
-alias kens='kubecolor edit namespace'
-alias kdns='kubecolor describe namespace'
-alias kdelns='kubecolor delete namespace'
-alias kcn='kubecolor config set-context $(kubecolor config current-context) --namespace'
-alias kgcm='kubecolor get configmaps'
-alias kgcma='kubecolor get configmaps --all-namespaces'
-alias kecm='kubecolor edit configmap'
-alias kdcm='kubecolor describe configmap'
-alias kdelcm='kubecolor delete configmap'
-alias kgsec='kubecolor get secret'
-alias kgseca='kubecolor get secret --all-namespaces'
-alias kdsec='kubecolor describe secret'
-alias kdelsec='kubecolor delete secret'
-alias kgss='kubecolor get statefulset'
-alias kgssa='kubecolor get statefulset --all-namespaces'
-alias kgssw='kgss --watch'
-alias kgsswide='kgss -o wide'
-alias kess='kubecolor edit statefulset'
-alias kdss='kubecolor describe statefulset'
-alias kdelss='kubecolor delete statefulset'
-alias ksss='kubecolor scale statefulset'
-alias krsss='kubecolor rollout status statefulset'
-alias kga='kubecolor get all'
-alias kgaa='kubecolor get all --all-namespaces'
-alias kl='kubecolor logs'
-alias kl1h='kubecolor logs --since 1h'
-alias kl1m='kubecolor logs --since 1m'
-alias kl1s='kubecolor logs --since 1s'
-alias klf='kubecolor logs -f'
-alias klf1h='kubecolor logs --since 1h -f'
-alias klf1m='kubecolor logs --since 1m -f'
-alias klf1s='kubecolor logs --since 1s -f'
-alias kcp='kubecolor cp'
-alias kgno='kubecolor get nodes'
-alias keno='kubecolor edit node'
-alias kdno='kubecolor describe node'
-alias kdelno='kubecolor delete node'
-alias kgpvc='kubecolor get pvc'
-alias kgpvca='kubecolor get pvc --all-namespaces'
-alias kgpvcw='kgpvc --watch'
-alias kepvc='kubecolor edit pvc'
-alias kdpvc='kubecolor describe pvc'
-alias kepvc='kubecolor edit pvc'
-alias kdelpvc='kubecolor delete pvc'
+# persistenvolume
 alias kgpv='kubecolor get pv'
+alias kdpv='kubecolor describe pv'
+alias kdelpv='kubecolor delete pv'
 alias kepv='kubecolor edit pv'
+
+# storageclass
 alias kgsc='kubecolor get storageclass'
+alias kdsc='kubecolor describe storageclass'
+alias kdelsc='kubecolor delete storageclass'
 alias kesc='kubecolor edit storageclass'
+
 # custom resource
 alias kgir='kubecolor get IngressRoute'
 alias kgira='kubecolor get IngressRoute --all-namespaces'
@@ -269,7 +217,6 @@ alias kdcerr='kubecolor describe certificaterequest'
 
 #### custom
 alias gs='git status'
-alias gr='git reset --soft HEAD~1'
 gpsm(){
   git submodule init
   git submodule update
@@ -281,6 +228,8 @@ cert-decode() {
   openssl x509 -noout -text -in $1
 }
 
+alias gcns='kubectl create ns'
+
 # CronJob management.
 alias kgj='kubecolor get job'
 alias kdj='kubecolor describe job'
@@ -290,36 +239,29 @@ alias kgcj='kubecolor get cronjob'
 alias kdcj='kubecolor describe cronjob'
 alias kdelcj='kubecolor delete cronjob'
 
-# replicaset
 alias kgrs='kubecolor get rs'
 alias kdrs='kubecolor describe rs'
 alias kdelrs='kubecolor delete rs'
 
-# ValidatingWebhookConfiguration
 alias kgvwc='kubecolor get ValidatingWebhookConfiguration'
 alias kdvwc='kubecolor describe ValidatingWebhookConfiguration'
 alias kdelvwc='kubecolor delete ValidatingWebhookConfiguration'
 
-alias kdelforce='kubecolor delete --grace-period=0 --force'
-alias wkgpa='watch -n2 "kubectl get pods --all-namespaces"'
-alias wkgp='watch -n2 "kubectl get pods"'
-alias wkgp='watch -n2 "kubectl get po"'
-
-ke() {
-  kubectl exec -it $1 -- $2
-}
-
-# yaml
-alias kgdsy='kubecolor get DaemonSet -oyaml'
 alias kgcmy='kubecolor get configmaps -oyaml'
-alias kgpy='kubecolor get pods -oyaml'
-alias kgiy='kubecolor get ingress -oyaml'
-alias kgiy='kubecolor get ingress -oyaml'
 alias kgsecy='kubecolor get secret -oyaml'
+alias kgpy='kubecolor get pods -oyaml'
+alias kgsy='kubecolor get service -oyaml'
+alias kgiy='kubecolor get ingress -oyaml'
 
-# kyverno - ClusterPolicy
-alias kgcp='kubecolor get ClusterPolicy'
-alias kgcpy='kubecolor get ClusterPolicy -o yaml'
-alias kdcp='kubecolor describe ClusterPolicy'
-alias kdelcp='kubecolor delete ClusterPolicy'
+# prometheus
+alias kgsma='kubectl get servicemonitor -A'
+alias kgsm='kubectl get servicemonitor'
+alias kgsmy='kubectl get servicemonitor -oyaml'
+alias kdelsm='kubectl delete servicemonitor'
+alias kdsm='kubectl describe servicemonitor'
 
+alias kgpma='kubectl get podmonitor -A'
+alias kgpm='kubectl get podmonitor'
+alias kgpmy='kubectl get podmonitor -oyaml'
+alias kdelpm='kubectl delete podmonitor'
+alias kdpm='kubectl describe podmonitor'
