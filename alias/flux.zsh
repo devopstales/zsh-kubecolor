@@ -1,7 +1,22 @@
 # flux
 alias f=flux
 alias fr="flux reconcile source git flux-system"
+alias fgap="flux get alert-providers"
+alias fgapa="flux get alert-providers -A"
+alias fgal="flux get alerts"
+alias fgala="flux get alerts -A"
+alias fga="flux get all"
 alias fgaa="flux get all -A"
+alias fgk="flux get kustomizations"
+alias fgka="flux get kustomizations -A"
+alias fghr="flux get helmreleases"
+alias fghra="flux get helmreleases -A"
+alias fgi="flux get images"
+alias fgia="flux get images -A"
+alias fgr="flux get receivers"
+alias fgra="flux get receivers -A"
+alias fgs="flux get sources"
+alias fgsa="flux get sources -A"
 function fshr() {
 	flux suspend hr $1 -n $2
 }
