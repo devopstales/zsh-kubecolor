@@ -10,9 +10,15 @@ if (( $+commands[kubectl] )); then
     unset __KUBECTL_COMPLETION_FILE
 fi
 
-# complition
-__KUBECOLOR_COMPLETION_FILE="${ZSH_CUSTOM}/plugins/zsh-kubecolor/completion/kubecolor_completion"
-source $__KUBECOLOR_COMPLETION_FILE
+if (( $+commands[fzf] )); then
+	# complition
+	source ${0:h}/completion/kubecolor_completion
+	source ${0:h}/alias/fzf.zsh
+fi
+
+if (( $+commands[helm] )); then
+	source ${0:h}/alias/helm.zsh
+fi
 
 # This command is used a LOT both below and in daily life
 alias k=kubectl
@@ -48,16 +54,18 @@ alias kdelfo='kubecolor delete --grace-period=0 --force'
 
 # Pod management.
 alias kgp='kubecolor get pods'
-alias kgkr='kubectl get pods --field-selector=status.phase=Running'
+alias kgkr='kubecolor get pods --field-selector=status.phase=Running'
 alias kgpa='kubecolor get pods --all-namespaces'
 alias kgpw='kgp --watch'
 alias kgpow='kgp -o wide'
-alias wkgpa='watch -n2 "kubectl get pods --all-namespaces"'
-alias wkgp='watch -n2 "kubectl get po"'
+alias kgpoy='kgp -o yaml'
+alias wkgpa='watch --color -n2 "kubecolor --force-colors get pods --all-namespaces"'
+alias wkgp='watch --color -n2 "kubecolor --force-colors  get po"'
 alias kgpwide='kgp -o wide'
 alias kep='kubecolor edit pods'
 alias kdp='kubecolor describe pods'
 alias kdelp='kubecolor delete pods'
+alias kdelpf='kubecolor delete pods --force'
 alias kgpall='kubecolor get pods --all-namespaces -o wide'
 alias kdelpofo='kubecolor delete --grace-period=0 --force po'
 alias kgpae='kgpa | grep -v Running | grep -v Completed'
@@ -100,6 +108,7 @@ alias kdelcm='kubecolor delete configmap'
 
 # Secret management
 alias kgsec='kubecolor get secret'
+alias kgsecoy='kubecolor get secret -o yaml'
 alias kgseca='kubecolor get secret --all-namespaces'
 alias kdsec='kubecolor describe secret'
 alias kdelsec='kubecolor delete secret'
@@ -113,6 +122,8 @@ alias ked='kubecolor edit deployment'
 alias kdd='kubecolor describe deployment'
 alias kdeld='kubecolor delete deployment'
 alias ksd='kubecolor scale deployment'
+alias ksd0='kubectl scale deployment --replicas=0'
+alias ksd1='kubectl scale deployment --replicas=1'
 alias krsd='kubecolor rollout status deployment'
 kres(){
     kubecolor set env $@ REFRESHED_AT=$(date +%Y%m%d%H%M%S)
@@ -131,6 +142,8 @@ alias kess='kubecolor edit statefulset'
 alias kdss='kubecolor describe statefulset'
 alias kdelss='kubecolor delete statefulset'
 alias ksss='kubecolor scale statefulset'
+alias kss0='kubectl scale statefulset --replicas=0'
+alias kss1='kubectl scale statefulset --replicas=1'
 alias krsss='kubecolor rollout status statefulset'
 
 # Port forwarding
@@ -222,6 +235,7 @@ alias kdcerr='kubecolor describe certificaterequest'
 
 #### custom
 alias gs='git status'
+alias gh='git log'
 gpsm(){
   git submodule init
   git submodule update
@@ -272,9 +286,3 @@ alias kgpm='kubectl get podmonitor'
 alias kgpmy='kubectl get podmonitor -oyaml'
 alias kdelpm='kubectl delete podmonitor'
 alias kdpm='kubectl describe podmonitor'
-
-# fzf
-alias kgpn='kubectl get pods --no-headers --output=custom-columns=NAME:.metadata.name'
-alias kgprn='kubectl get pods --no-headers --field-selector=status.phase=Running --output=custom-columns=NAME:.metadata.name'
-alias kep='kubectl exec -ti "$(kgprn | fzf --prompt=exec-pod)" bash'
-alias klp='kubectl logs "$(kgprn | fzf --prompt=describe-pod:)"'
