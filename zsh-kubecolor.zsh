@@ -20,6 +20,10 @@ if (( $+commands[helm] )); then
 	source ${0:h}/alias/helm.zsh
 fi
 
+if (( $+commands[flux] )); then
+        source ${0:h}/alias/flux.zsh
+fi
+
 # This command is used a LOT both below and in daily life
 alias k=kubectl
 
