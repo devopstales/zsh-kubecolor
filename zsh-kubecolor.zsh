@@ -25,7 +25,8 @@ if (( $+commands[flux] )); then
 fi
 
 # This command is used a LOT both below and in daily life
-alias k=kubectl
+#alias k=kubectl
+alias k=kubecolor
 
 # Execute a kubectl command against all namespaces
 alias kca='_kca(){ kubecolor "$@" --all-namespaces;  unset -f _kca; }; _kca'
