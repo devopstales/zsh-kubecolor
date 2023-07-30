@@ -227,6 +227,8 @@ ssh-rm() {
 cert-decode() {
   openssl x509 -noout -text -in $1
 }
+alia kx='kubectx'
+
 
 alias kcns='kubectl create ns'
 
