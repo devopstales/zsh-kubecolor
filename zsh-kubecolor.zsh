@@ -90,12 +90,28 @@ alias kes='kubecolor edit svc'
 alias kds='kubecolor describe svc'
 alias kdels='kubecolor delete svc'
 
+# IngressClass
+alias kgic='kubecolor get ingressclass'
+alias keic='kubecolor edit ingressclass'
+alias kdic='kubecolor describe ingressclass'
+alias kdelic='kubecolor delete ingressclass'
+
+# GatewayClass
+alias kggc='kubecolor get GatewayClass'
+alias kegc='kubecolor edit GatewayClass'
+alias kdgc='kubecolor describe GatewayClass'
+alias kdelgc='kubecolor delete GatewayClass'
+
 # Ingress management
 alias kgi='kubecolor get ingress'
 alias kgia='kubecolor get ingress --all-namespaces'
 alias kei='kubecolor edit ingress'
 alias kdi='kubecolor describe ingress'
 alias kdeli='kubecolor delete ingress'
+
+# Gateway
+alias kgg='kubecolor get Gateway'
+alias kgga='kubecolor get Gateway --all-namespaces'
 
 # Namespace management
 alias kgns='kubecolor get namespaces'
@@ -293,20 +309,20 @@ alias kgsy='kubecolor get service -oyaml'
 alias kgiy='kubecolor get ingress -oyaml'
 
 # prometheus
-alias kgsma='kubectl get servicemonitor -A'
-alias kgsm='kubectl get servicemonitor'
-alias kgsmy='kubectl get servicemonitor -oyaml'
-alias kdelsm='kubectl delete servicemonitor'
-alias kdsm='kubectl describe servicemonitor'
+alias kgsma='kubecolor get servicemonitor -A'
+alias kgsm='kubecolor get servicemonitor'
+alias kgsmy='kubecolor get servicemonitor -oyaml'
+alias kdelsm='kubecolor delete servicemonitor'
+alias kdsm='kubecolor describe servicemonitor'
 
-alias kgpma='kubectl get podmonitor -A'
-alias kgpm='kubectl get podmonitor'
-alias kgpmy='kubectl get podmonitor -oyaml'
-alias kdelpm='kubectl delete podmonitor'
-alias kdpm='kubectl describe podmonitor'
+alias kgpma='kubecolor get podmonitor -A'
+alias kgpm='kubecolor get podmonitor'
+alias kgpmy='kubecolor get podmonitor -oyaml'
+alias kdelpm='kubecolor delete podmonitor'
+alias kdpm='kubecolor describe podmonitor'
 
-alias kgpra='kubectl get prometheusRule -A'
-alias kgpr='kubectl get prometheusRule'
-alias kgpry='kubectl get prometheusRule -oyaml'
-alias kdelpr='kubectl delete prometheusRule'
-alias kdpr='kubectl describe prometheusRule'
+alias kgpra='kubecolor get prometheusRule -A'
+alias kgpr='kubecolor get prometheusRule'
+alias kgpry='kubecolor get prometheusRule -oyaml'
+alias kdelpr='kubecolor delete prometheusRule'
+alias kdpr='kubecolor describe prometheusRule'
