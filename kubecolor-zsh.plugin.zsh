@@ -269,6 +269,7 @@ alias kdcerr='kubecolor describe certificaterequest'
 
 #### custom
 alias gs='git status'
+alias gr='git reset --soft HEAD~1'
 gpsm(){
   git submodule init
   git submodule update
