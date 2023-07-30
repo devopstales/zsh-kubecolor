@@ -1,5 +1,5 @@
 if (( $+commands[kubectl] )); then
-    __KUBECTL_COMPLETION_FILE="${ZSH_CACHE_DIR}/kubectl_completion"
+    __KUBECTL_COMPLETION_FILE="${ZSH_CUSTOM}/plugins/zsh-kubecolor/completion/kubectl_completion"
 
     if [[ ! -f $__KUBECTL_COMPLETION_FILE || ! -s $__KUBECTL_COMPLETION_FILE ]]; then
         kubectl completion zsh >! $__KUBECTL_COMPLETION_FILE
@@ -9,6 +9,10 @@ if (( $+commands[kubectl] )); then
 
     unset __KUBECTL_COMPLETION_FILE
 fi
+
+# complition
+__KUBECOLOR_COMPLETION_FILE="${ZSH_CUSTOM}/plugins/zsh-kubecolor/completion/kubecolor_completion"
+source $__KUBECOLOR_COMPLETION_FILE
 
 # This command is used a LOT both below and in daily life
 alias k=kubectl
@@ -44,6 +48,7 @@ alias kdelfo='kubecolor delete --grace-period=0 --force'
 
 # Pod management.
 alias kgp='kubecolor get pods'
+alias kgkr='kubectl get pods --field-selector=status.phase=Running'
 alias kgpa='kubecolor get pods --all-namespaces'
 alias kgpw='kgp --watch'
 alias kgpow='kgp -o wide'
@@ -267,3 +272,9 @@ alias kgpm='kubectl get podmonitor'
 alias kgpmy='kubectl get podmonitor -oyaml'
 alias kdelpm='kubectl delete podmonitor'
 alias kdpm='kubectl describe podmonitor'
+
+# fzf
+alias kgpn='kubectl get pods --no-headers --output=custom-columns=NAME:.metadata.name'
+alias kgprn='kubectl get pods --no-headers --field-selector=status.phase=Running --output=custom-columns=NAME:.metadata.name'
+alias kep='kubectl exec -ti "$(kgprn | fzf --prompt=exec-pod)" bash'
+alias klp='kubectl logs "$(kgprn | fzf --prompt=describe-pod:)"'

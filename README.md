@@ -4,9 +4,13 @@
 # Install
 
 ### 1 - Pre-Requisites
+
 ```bash
 brew install hidetatz/tap/kubecolor
+brew install fzf
+$(brew --prefix)/opt/fzf/install
 ```
+
 ### 2 - Configure Kubecolor
 
 Follow steps described in the official [GitHub Repo](https://github.com/hidetatz/kubecolor)
