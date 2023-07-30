@@ -220,11 +220,24 @@ alias kdpv='kubecolor describe pv'
 alias kdelpv='kubecolor delete pv'
 alias kepv='kubecolor edit pv'
 
+# volumesnapshot
+alias kgvs='kubecolor get volumesnapshot'
+alias kdvs='kubecolor describe volumesnapshot'
+alias kdelvs='kubecolor delete volumesnapshot'
+alias kevs='kubecolor edit volumesnapshot'
+
 # storageclass
 alias kgsc='kubecolor get storageclass'
 alias kdsc='kubecolor describe storageclass'
 alias kdelsc='kubecolor delete storageclass'
 alias kesc='kubecolor edit storageclass'
+
+# volumesnapshotclass
+
+alias kgvsc='kubecolor get volumesnapshotclass'
+alias kdvsc='kubecolor describe volumesnapshotclass'
+alias kdelvsc='kubecolor delete volumesnapshotclass'
+alias kevsc='kubecolor edit volumesnapshotclass'
 
 # custom resource
 alias kgir='kubecolor get IngressRoute'
