@@ -102,7 +102,6 @@ kres(){
 }
 
 # Rollout management.
-alias kgrs='kubecolor get rs'
 alias krh='kubecolor rollout history'
 alias kru='kubecolor rollout undo'
 
@@ -283,8 +282,20 @@ cert-decode() {
 
 # CronJob management.
 alias kgj='kubecolor get job'
-alias kdj='kubecolor describe cronjob'
-alias kdelj='kubecolor delete cronjob'
+alias kdj='kubecolor describe job'
+alias kdelj='kubecolor delete job'
+
+alias kgcj='kubecolor get cronjob'
+alias kdcj='kubecolor describe cronjob'
+alias kdelcj='kubecolor delete cronjob'
+
+alias kgrs='kubecolor get rs'
+alias kdrs='kubecolor describe rs'
+alias kdelrs='kubecolor delete rs'
+
+alias kgvwc='kubecolor get ValidatingWebhookConfiguration'
+alias kdvwc='kubecolor describe ValidatingWebhookConfiguration'
+alias kdelvwc='kubecolor delete ValidatingWebhookConfiguration'
 
 alias kdelforce='kubecolor delete --grace-period=0 --force'
 alias wkgpa='watch -n2 "kubectl get pods --all-namespaces"'
