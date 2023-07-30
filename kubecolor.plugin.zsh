@@ -228,7 +228,7 @@ cert-decode() {
   openssl x509 -noout -text -in $1
 }
 
-alias gcns='kubectl create ns'
+alias kcns='kubectl create ns'
 
 # CronJob management.
 alias kgj='kubecolor get job'
