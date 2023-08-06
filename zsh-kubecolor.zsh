@@ -84,7 +84,9 @@ alias kgpn='kgp -n'
 
 # Service management.
 alias kgs='kubecolor get svc'
+alias kgsl='kubecolor get svc | grep LoadBalancer'
 alias kgsa='kubecolor get svc --all-namespaces'
+alias kgsla='kubecolor get svc --all-namespaces | grep LoadBalancer'
 alias kgsw='kgs --watch'
 alias kgswide='kgs -o wide'
 alias kes='kubecolor edit svc'
@@ -285,6 +287,26 @@ alias kx='kubectx'
 
 
 alias kcns='kubectl create ns'
+
+# roles
+alias kgr="kubecolor get role"
+alias kgra="kubecolor get role -A"
+alias kdr="kubecolor describe role"
+alias kdelr="kubecolor delete role"
+
+alias kgcr="kubecolor get clusterrole"
+alias kdcr="kubecolor describe clusterrole"
+alias kdelcr="kubecolor delete clusterrole"
+
+alias kgrb="kubecolor get rolebinding"
+alias kgrba="kubecolor get rolebinding -A"
+alias kdrb="kubecolor describe rolebinding"
+alias kdelrb="kubecolor delete rolebinding"
+
+alias kgcrb="kubecolor get clusterrolebinding"
+alias kdcrb="kubecolor describe clusterrolebinding"
+alias kdelcrb="kubecolor delete clusterrolebinding"
+
 
 # CronJob management.
 alias kgj='kubecolor get job'
