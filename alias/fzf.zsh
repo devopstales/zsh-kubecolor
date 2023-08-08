@@ -4,3 +4,4 @@ alias kgprn='kubectl get pods --no-headers --field-selector=status.phase=Running
 alias kep='kubectl exec -ti "$(kgprn | fzf --prompt=exec-pod)" bash'
 alias klp='kubectl logs "$(kgprn | fzf --prompt=describe-pod:)"'
 alias kgpvcn='kubectl get pvc --no-headers --output=custom-columns=NAME:.metadata.name'
+alias kgnsn='kubectl get ns --no-headers --output=custom-columns=NAME:.metadata.name'

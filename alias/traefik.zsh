@@ -1,0 +1,5 @@
+alias kgir='kubecolor get IngressRoute'
+alias kgira='kubecolor get IngressRoute --all-namespaces'
+alias keir='kubecolor edit IngressRoute'
+alias kdir='kubecolor describe IngressRoute'
+alias kdelir='kubecolor delete IngressRoute'

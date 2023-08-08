@@ -19,10 +19,16 @@ alias fgra="flux get receivers -A"
 alias fgs="flux get sources"
 alias fgsa="flux get sources -A"
 function fshr() {
-	flux suspend hr $1 -n $2
+	flux suspend hr -n $1 $2
 }
 function frhr() {
-	flux resume hr $1 -n $2
+	flux resume hr -n $1 $2
+}
+function fsk() {
+        flux suspend kustomization -n $1 $2
+}
+function frk() {
+        flux resume kustomization -n $1 $2
 }
 alias kgk="kg kustomization"
 alias kgka="kg kustomization -A"

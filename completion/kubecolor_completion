@@ -5,6 +5,12 @@ _fzf_complete_kgp() {
   )
 }
 
+_fzf_complete_klf() {
+  _fzf_complete --multi --reverse --prompt="klf> " -- "$@" < <(
+    kgprn
+  )
+}
+
 _fzf_complete_kdelp() {
   _fzf_complete --multi --reverse --prompt="kdelp> " -- "$@" < <(
     kgprn    
@@ -27,4 +33,23 @@ _fzf_complete_kdelpvc() {
   _fzf_complete --multi --reverse --prompt="kdelpvc> " -- "$@" < <(
     kgpvcn
   )
+}
+
+_fzf_complete_kdelns() {
+  _fzf_complete --multi --reverse --prompt="kdelns> " -- "$@" < <(
+    kgnsn
+  )
+}
+
+__logs__(){
+  export FZF_DEFAULT_COMMAND="kubectl get pods --all-namespaces"
+  fzf --info=inline --layout=reverse --header-lines=1 \
+   --prompt "CL: $(kubectl config current-context | sed 's/-context$//') NS: $(kubectl config get-contexts | grep "*" | awk '{print $5}')> " \
+   --header $'>> Enter (kubectl exec) || CTRL-L (open log in editor) || CTRL-R (refresh) || CTRL-/ (change view) <<\n\n' \
+   --bind 'ctrl-/:change-preview-window(50%,border-bottom|hidden|)' \
+   --bind 'enter:execute:kubectl exec -it --namespace {1} {2} -- bash > /dev/tty' \
+   --bind 'ctrl-l:execute:${EDITOR:-vim} <(kubectl logs --all-containers --namespace {1} {2}) > /dev/tty' \
+   --bind 'ctrl-r:reload:$FZF_DEFAULT_COMMAND' \
+   --preview-window up:follow,80% \
+   --preview 'kubectl logs --follow --all-containers --tail=200 --namespace {1} {2}' "$@"
 }

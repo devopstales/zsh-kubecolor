@@ -24,15 +24,25 @@ if (( $+commands[flux] )); then
         source ${0:h}/alias/flux.zsh
 fi
 
+if (( $+commands[oc] )); then
+        source ${0:h}/alias/oc.zsh
+fi
+
+if (( $+commands[kubeseal] )); then
+        source ${0:h}/alias/sealedsecret.zsh
+fi
+
+alias ll='ls -laF'
+
 # This command is used a LOT both below and in daily life
-#alias k=kubectl
-alias k=kubecolor
+alias k=kubectl
 
 # Execute a kubectl command against all namespaces
 alias kca='_kca(){ kubecolor "$@" --all-namespaces;  unset -f _kca; }; _kca'
 
 # Apply a YML file
 alias kaf='kubecolor apply -f'
+alias kssaf='kubecolor apply --server-side -f'
 
 # Drop into an interactive terminal on a container
 alias keti='kubecolor exec -ti'
@@ -61,7 +71,7 @@ alias kdelfo='kubecolor delete --grace-period=0 --force'
 alias kgp='kubecolor get pods'
 alias kgkr='kubecolor get pods --field-selector=status.phase=Running'
 alias kgpa='kubecolor get pods --all-namespaces'
-alias kgpanr='kubecolor get pods --all-namespaces --field-selector=status.phase!=Running'
+alias kgpanr='kubecolor get pods --all-namespaces --field-selector=status.phase!=Running,status.phase!=Completed'
 alias kgpw='kgp --watch'
 alias kgpow='kgp -o wide'
 alias kgpoy='kgp -o yaml'
@@ -75,6 +85,8 @@ alias kdelpf='kubecolor delete pods --force'
 alias kgpall='kubecolor get pods --all-namespaces -o wide'
 alias kdelpofo='kubecolor delete --grace-period=0 --force po'
 alias kgpae='kgpa | grep -v Running | grep -v Completed'
+# last stopped pod
+alias kgpls='kubectl get pods -o "custom-columns=NAME:.metadata.name,LAST-STOPPED:.status.containerStatuses[*].lastState.terminated.finishedAt"'
 
 # get pod by label: kgpl "app=myapp" -n myns
 alias kgpl='kgp -l'
@@ -84,26 +96,13 @@ alias kgpn='kgp -n'
 
 # Service management.
 alias kgs='kubecolor get svc'
-alias kgsl='kubecolor get svc | grep LoadBalancer'
-alias kgsa='kubecolor get svc --all-namespaces'
-alias kgsla='kubecolor get svc --all-namespaces | grep LoadBalancer'
+alias kgslb='kubecolor get svc -A | grep LoadBalancer'
+alias kgsaa='kubecolor get svc --all-namespaces'
 alias kgsw='kgs --watch'
 alias kgswide='kgs -o wide'
 alias kes='kubecolor edit svc'
 alias kds='kubecolor describe svc'
 alias kdels='kubecolor delete svc'
-
-# IngressClass
-alias kgic='kubecolor get ingressclass'
-alias keic='kubecolor edit ingressclass'
-alias kdic='kubecolor describe ingressclass'
-alias kdelic='kubecolor delete ingressclass'
-
-# GatewayClass
-alias kggc='kubecolor get GatewayClass'
-alias kegc='kubecolor edit GatewayClass'
-alias kdgc='kubecolor describe GatewayClass'
-alias kdelgc='kubecolor delete GatewayClass'
 
 # Ingress management
 alias kgi='kubecolor get ingress'
@@ -112,9 +111,10 @@ alias kei='kubecolor edit ingress'
 alias kdi='kubecolor describe ingress'
 alias kdeli='kubecolor delete ingress'
 
-# Gateway
-alias kgg='kubecolor get Gateway'
-alias kgga='kubecolor get Gateway --all-namespaces'
+alias kgic='kubecolor get IngressClass'
+alias keic='kubecolor edit IngressClass'
+alias kdic='kubecolor describe IngressClass'
+alias kdelic='kubecolor delete IngressClass'
 
 # Namespace management
 alias kgns='kubecolor get namespaces'
@@ -187,6 +187,14 @@ alias klf1h='kubecolor logs --since 1h -f'
 alias klf1m='kubecolor logs --since 1m -f'
 alias klf1s='kubecolor logs --since 1s -f'
 
+kll(){
+  export FZF_DEFAULT_COMMAND="kubectl get pods --no-headers --field-selector=status.phase=Running --output=custom-columns=NAME:.metadata.name"
+  fzf --multi --reverse \
+    --bind 'enter:execute:kubecolor logs -f --tail=200 {1}' \
+    --preview-window up:follow,80% \
+    --preview 'kubectl logs {1} | bat --style=numbers --color=always --line-range :500' "$@"
+}
+
 # File copy
 alias kcp='kubecolor cp'
 
@@ -205,6 +213,7 @@ alias kdpvc='kubecolor describe pvc'
 alias kdelpvc='kubecolor delete pvc'
 
 # Service account management.
+alias kgsa="kubecolor get sa"
 alias kdsa="kubecolor describe sa"
 alias kdelsa="kubecolor delete sa"
 
@@ -239,36 +248,28 @@ alias kdpv='kubecolor describe pv'
 alias kdelpv='kubecolor delete pv'
 alias kepv='kubecolor edit pv'
 
-# volumesnapshot
-alias kgvs='kubecolor get volumesnapshot'
-alias kdvs='kubecolor describe volumesnapshot'
-alias kdelvs='kubecolor delete volumesnapshot'
-alias kevs='kubecolor edit volumesnapshot'
-
 # storageclass
 alias kgsc='kubecolor get storageclass'
 alias kdsc='kubecolor describe storageclass'
 alias kdelsc='kubecolor delete storageclass'
 alias kesc='kubecolor edit storageclass'
 
-# volumesnapshotclass
+# network policy
+alias kgnp='kubecolor get networkpolicy'
+alias kgnpa='kubecolor get networkpolicy -A'
+alias kdnp='kubecolor describe networkpolicy'
+alias kdelnp='kubecolor delete networkpolicy'
+alias kenp='kubecolor edit networkpolicy'
 
-alias kgvsc='kubecolor get volumesnapshotclass'
-alias kdvsc='kubecolor describe volumesnapshotclass'
-alias kdelvsc='kubecolor delete volumesnapshotclass'
-alias kevsc='kubecolor edit volumesnapshotclass'
+alias kgcnp='kubecolor get ciliumnetworkpolicy'
+alias kgcnpa='kubecolor get ciliumnetworkpolicy -A'
+alias kdcnp='kubecolor describe ciliumnetworkpolicy'
+alias kdelcnp='kubecolor delete ciliumnetworkpolicy'
+alias kecnp='kubecolor edit ciliumnetworkpolicy'
 
 # custom resource
-alias kgir='kubecolor get IngressRoute'
-alias kgira='kubecolor get IngressRoute --all-namespaces'
-alias keir='kubecolor edit IngressRoute'
-alias kdir='kubecolor describe IngressRoute'
-alias kdelir='kubecolor delete IngressRoute'
-alias kgci='kubecolor get ClusterIssuer'
-alias kgcer='kubecolor get certificate'
-alias kdcer='kubecolor describe certificate'
-alias kdcerr='kubecolor describe certificaterequest'
-
+source ${0:h}/alias/cert-manager.zsh
+source ${0:h}/alias/traefik.zsh
 
 #### custom
 alias gs='git status'
@@ -284,29 +285,9 @@ cert-decode() {
   openssl x509 -noout -text -in $1
 }
 alias kx='kubectx'
-
+alias kns='kubens'
 
 alias kcns='kubectl create ns'
-
-# roles
-alias kgr="kubecolor get role"
-alias kgra="kubecolor get role -A"
-alias kdr="kubecolor describe role"
-alias kdelr="kubecolor delete role"
-
-alias kgcr="kubecolor get clusterrole"
-alias kdcr="kubecolor describe clusterrole"
-alias kdelcr="kubecolor delete clusterrole"
-
-alias kgrb="kubecolor get rolebinding"
-alias kgrba="kubecolor get rolebinding -A"
-alias kdrb="kubecolor describe rolebinding"
-alias kdelrb="kubecolor delete rolebinding"
-
-alias kgcrb="kubecolor get clusterrolebinding"
-alias kdcrb="kubecolor describe clusterrolebinding"
-alias kdelcrb="kubecolor delete clusterrolebinding"
-
 
 # CronJob management.
 alias kgj='kubecolor get job'
@@ -349,3 +330,4 @@ alias kgpr='kubecolor get prometheusRule'
 alias kgpry='kubecolor get prometheusRule -oyaml'
 alias kdelpr='kubecolor delete prometheusRule'
 alias kdpr='kubecolor describe prometheusRule'
+
