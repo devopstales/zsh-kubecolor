@@ -32,6 +32,10 @@ if (( $+commands[kubeseal] )); then
         source ${0:h}/alias/sealedsecret.zsh
 fi
 
+if (( $+commands[git] )); then
+	source ${0:h}/alias/git.zsh
+fi
+
 alias ll='ls -laF'
 
 # This command is used a LOT both below and in daily life
@@ -42,6 +46,7 @@ alias kca='_kca(){ kubecolor "$@" --all-namespaces;  unset -f _kca; }; _kca'
 
 # Apply a YML file
 alias kaf='kubecolor apply -f'
+alias kafr='kubecolor apply -f $1 -R'
 alias kssaf='kubecolor apply --server-side -f'
 
 # Drop into an interactive terminal on a container
@@ -72,6 +77,7 @@ alias kgp='kubecolor get pods'
 alias kgkr='kubecolor get pods --field-selector=status.phase=Running'
 alias kgpa='kubecolor get pods --all-namespaces'
 alias kgpanr='kubecolor get pods --all-namespaces --field-selector=status.phase!=Running,status.phase!=Completed'
+alias wkgpanr='watch --color -n2 "kubecolor --force-colors get pods --all-namespaces --field-selector=status.phase!=Running,status.phase!=Completed"'
 alias kgpw='kgp --watch'
 alias kgpow='kgp -o wide'
 alias kgpoy='kgp -o yaml'
@@ -97,6 +103,7 @@ alias kgpn='kgp -n'
 # Service management.
 alias kgs='kubecolor get svc'
 alias kgslb='kubecolor get svc -A | grep LoadBalancer'
+alias kglb='kubecolor get svc | grep LoadBalancer'
 alias kgsaa='kubecolor get svc --all-namespaces'
 alias kgsw='kgs --watch'
 alias kgswide='kgs -o wide'
@@ -217,6 +224,26 @@ alias kgsa="kubecolor get sa"
 alias kdsa="kubecolor describe sa"
 alias kdelsa="kubecolor delete sa"
 
+# roles
+alias kgr='kubecolor get roles'
+alias kdr='kubecolor describe roles'
+alias kdelr='kubecolor delete roles'
+alias ker='kubecolor edit roles'
+alias kgcr='kubecolor get clusterroles'
+alias kdcr='kubecolor describe clusterroles'
+alias kdelcr='kubecolor delete clusterroles'
+alias kecr='kubecolor edit clusterroles'
+
+alias kgrb='kubecolor get rolebindings'
+alias kdrb='kubecolor describe rolebindings'
+alias kdelrb='kubecolor delete rolebindings'
+alias kerb='kubecolor edit rolebindings'
+alias kgcrb='kubecolor get clusterrolebindings'
+alias kdcrb='kubecolor describe clusterrolebindings'
+alias kdelcrb='kubecolor delete clusterrolebindings'
+alias kecrb='kubecolor edit clusterrolebindings'
+
+
 # DaemonSet management.
 alias kgds='kubecolor get daemonset'
 alias kgdsy='kubecolor get DaemonSet -oyaml'
@@ -254,30 +281,13 @@ alias kdsc='kubecolor describe storageclass'
 alias kdelsc='kubecolor delete storageclass'
 alias kesc='kubecolor edit storageclass'
 
-# network policy
-alias kgnp='kubecolor get networkpolicy'
-alias kgnpa='kubecolor get networkpolicy -A'
-alias kdnp='kubecolor describe networkpolicy'
-alias kdelnp='kubecolor delete networkpolicy'
-alias kenp='kubecolor edit networkpolicy'
-
-alias kgcnp='kubecolor get ciliumnetworkpolicy'
-alias kgcnpa='kubecolor get ciliumnetworkpolicy -A'
-alias kdcnp='kubecolor describe ciliumnetworkpolicy'
-alias kdelcnp='kubecolor delete ciliumnetworkpolicy'
-alias kecnp='kubecolor edit ciliumnetworkpolicy'
-
 # custom resource
+source ${0:h}/alias/network-plicy.zsh
 source ${0:h}/alias/cert-manager.zsh
 source ${0:h}/alias/traefik.zsh
 
+
 #### custom
-alias gs='git status'
-alias gh='git log'
-gpsm(){
-  git submodule init
-  git submodule update
-}
 ssh-rm() {
   ssh-keygen -R $1
 }
@@ -301,6 +311,9 @@ alias kdelcj='kubecolor delete cronjob'
 alias kgrs='kubecolor get rs'
 alias kdrs='kubecolor describe rs'
 alias kdelrs='kubecolor delete rs'
+alias ksd='kubecolor scale deployment'
+alias ksrs0='kubectl scale rs --replicas=0'
+alias ksrs1='kubectl scale rs --replicas=1'
 
 alias kgvwc='kubecolor get ValidatingWebhookConfiguration'
 alias kdvwc='kubecolor describe ValidatingWebhookConfiguration'

@@ -1,3 +1,4 @@
+
 # flux
 alias f=flux
 alias fr="flux reconcile source git flux-system"
@@ -32,10 +33,12 @@ function frk() {
 }
 alias kgk="kg kustomization"
 alias kgka="kg kustomization -A"
+alias wkgka="watch --color 'kubecolor --force-colors get kustomization -A'"
 alias kdk="kd kustomization"
 alias kdelk="kdel kustomization"
 alias kghr="kg hr"
 alias kghra="kg hr -A"
+alias wkghra="watch --color 'kubecolor --force-colors get hr -A'"
 alias kdhr="kd hr"
 alias kdelhr="kdel hr"
 alias kghc="kg hc"
