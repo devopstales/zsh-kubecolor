@@ -17,6 +17,12 @@ _fzf_complete_kdelp() {
   )
 }
 
+_fzf_complete_kdelpf() {
+  _fzf_complete --multi --reverse --prompt="kdelpf> " -- "$@" < <(
+    kgprn
+  )
+}
+
 _fzf_complete_kdp() {
   _fzf_complete --multi --reverse --prompt="kdp> " -- "$@" < <(
     kgprn

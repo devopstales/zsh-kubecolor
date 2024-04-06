@@ -102,8 +102,10 @@ alias kgpn='kgp -n'
 
 # Service management.
 alias kgs='kubecolor get svc'
-alias kgslb='kubecolor get svc -A | grep LoadBalancer'
+alias kgslb='kubecolor get svc | grep LoadBalancer'
+alias kgslba='kubecolor get svc -A | grep LoadBalancer'
 alias kglb='kubecolor get svc | grep LoadBalancer'
+alias kglba='kubecolor get svc -A | grep LoadBalancer'
 alias kgsaa='kubecolor get svc --all-namespaces'
 alias kgsw='kgs --watch'
 alias kgswide='kgs -o wide'
