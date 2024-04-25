@@ -293,6 +293,9 @@ source ${0:h}/alias/traefik.zsh
 ssh-rm() {
   ssh-keygen -R $1
 }
+ssh-pass() {
+  ssh -o PubkeyAuthentication=no -o PreferredAuthentications=password $1
+}
 cert-decode() {
   openssl x509 -noout -text -in $1
 }
