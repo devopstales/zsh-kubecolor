@@ -44,6 +44,9 @@ alias k=kubectl
 # Execute a kubectl command against all namespaces
 alias kca='_kca(){ kubecolor "$@" --all-namespaces;  unset -f _kca; }; _kca'
 
+# list images
+#alias kgim='kubectl get pods -o jsonpath="{.items[*].spec['initContainers', 'containers'][*].image}" | tr -s '[[:space:]]' '\n' | sort | uniq -c'
+
 # Apply a YML file
 alias kaf='kubecolor apply -f'
 alias kafr='kubecolor apply -f $1 -R'
@@ -80,6 +83,7 @@ alias kgpanr='kubecolor get pods --all-namespaces --field-selector=status.phase!
 alias wkgpanr='watch --color -n2 "kubecolor --force-colors get pods --all-namespaces --field-selector=status.phase!=Running,status.phase!=Completed"'
 alias kgpw='kgp --watch'
 alias kgpow='kgp -o wide'
+alias wkgpow='watch --color -n2 "kubecolor --force-colors  get po -o wide"'
 alias kgpoy='kgp -o yaml'
 alias wkgpa='watch --color -n2 "kubecolor --force-colors get pods --all-namespaces"'
 alias wkgp='watch --color -n2 "kubecolor --force-colors  get po"'
@@ -204,6 +208,7 @@ kll(){
 
 # File copy
 alias kcp='kubecolor cp'
+alias ksync='kubecolor rsync'
 
 # Node Management
 alias kgno='kubecolor get nodes'

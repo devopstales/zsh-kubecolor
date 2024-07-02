@@ -26,6 +26,8 @@ git clone https://github.com/devopstales/zsh-kubecolor.git ${ZSH_CUSTOM:-~/.oh-m
 Edit your `.zshrc` config file  and add into the plugins configuration to enable shortcuts:
 
 ```bash
+export PATH="$PATH:$HOME/.oh-my-zsh/custom/plugins/zsh-kubecolor/bin"
+
 plugins=(
   git
   plugin-a
