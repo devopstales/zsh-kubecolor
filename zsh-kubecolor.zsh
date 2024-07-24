@@ -147,6 +147,10 @@ alias kgsecoy='kubecolor get secret -o yaml'
 alias kgseca='kubecolor get secret --all-namespaces'
 alias kdsec='kubecolor describe secret'
 alias kdelsec='kubecolor delete secret'
+if [ -x "$(command -v kubectl-view_secret)" ]; then
+      alias kwsec='kubecolor view-secret'
+fi
+
 
 # Deployment management.
 alias kgd='kubecolor get deployment'
