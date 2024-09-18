@@ -1,10 +1,10 @@
 # helm
-alias hl=helm
-alias hld="helm delete"
-alias hli="helm install"
-alias hls="helm status"
-alias hll="helm list"
-alias hlla="helm list -A"
-alias hlu="helm upgrade"
-alias hlui="helm upgrade --install"
-alias hlun="helm uninstall"
+alias h=helm
+alias hd="helm delete"
+alias hi="helm install"
+alias hs="helm status"
+alias hl="helm list"
+alias hla="helm list -A"
+alias hu="helm upgrade"
+alias hui="helm upgrade --install"
+alias hun="helm uninstall"

@@ -356,3 +356,8 @@ alias kgpry='kubecolor get prometheusRule -oyaml'
 alias kdelpr='kubecolor delete prometheusRule'
 alias kdpr='kubecolor describe prometheusRule'
 
+# crd
+alias kgcrd="kubecolor get crd"
+alias kdcrd="kubecolor describe crd"
+alias kdelcrd="kubecolor delete crd"
+
