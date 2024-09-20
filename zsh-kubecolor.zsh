@@ -36,6 +36,10 @@ if (( $+commands[git] )); then
 	source ${0:h}/alias/git.zsh
 fi
 
+if (( $+commands[az] )); then
+        source ${0:h}/alias/aks.zsh
+fi
+
 alias ll='ls -laF'
 
 # This command is used a LOT both below and in daily life

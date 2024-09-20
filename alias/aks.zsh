@@ -1,0 +1,5 @@
+alias kgspc='kubecolor get secretproviderclass'
+alias kgspca='kubecolor get secretproviderclass -A'
+alias kespc='kubecolor edit secretproviderclass'
+alias kdspc='kubecolor describe secretproviderclass'
+alias kdelspc='kubecolor delete secretproviderclass'
