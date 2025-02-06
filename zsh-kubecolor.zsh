@@ -73,6 +73,7 @@ alias kcgc='kubecolor config get-contexts'
 
 # General aliases
 alias kg='kubecolor get'
+alias kgy='kubecolor get -o yaml'
 alias kd='kubecolor describe'
 alias kdel='kubecolor delete'
 alias kdelf='kubecolor delete -f'
@@ -152,8 +153,11 @@ alias kgseca='kubecolor get secret --all-namespaces'
 alias kdsec='kubecolor describe secret'
 alias kdelsec='kubecolor delete secret'
 if [ -x "$(command -v kubectl-view_secret)" ]; then
-      alias kwsec='kubecolor view-secret'
+      alias kgsecv='kubecolor view-secret'
 fi
+kgsec-tls() {
+  kubecolor get secret $1 -o json | jq -r '.data."tls.crt"' | base64 -d | openssl x509 -noout -text
+}
 
 
 # Deployment management.
