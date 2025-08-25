@@ -1,5 +1,5 @@
 if (( $+commands[kubectl] )); then
-    __KUBECTL_COMPLETION_FILE="${ZSH_CUSTOM}/plugins/zsh-kubecolor/completion/kubectl_completion"
+    __KUBECTL_COMPLETION_FILE="${0:h}/completion/kubectl_completion"
 
     if [[ ! -f $__KUBECTL_COMPLETION_FILE || ! -s $__KUBECTL_COMPLETION_FILE ]]; then
         kubectl completion zsh >! $__KUBECTL_COMPLETION_FILE
