@@ -369,3 +369,53 @@ alias kgcrd="kubecolor get crd"
 alias kdcrd="kubecolor describe crd"
 alias kdelcrd="kubecolor delete crd"
 
+
+# monitoring
+knode-alloc() {
+  local node_filter=""
+  local output_format="table"
+  
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -n|--node) node_filter="$2"; shift 2 ;;
+      -j|--json) output_format="json"; shift ;;
+      *) shift ;;
+    esac
+  done
+  
+  local -a nodes
+  if [[ -n "$node_filter" ]]; then
+    nodes=("$node_filter")
+  else
+    nodes=("${(@f)$(kubectl get nodes -o name 2>/dev/null | grep -v 'control-plane' | grep -v 'master')}")
+  fi
+  
+  [[ ${#nodes[@]} -eq 0 ]] && echo "❌ No nodes found" >&2 && return 1
+  
+  [[ "$output_format" != "json" ]] && echo "🔍 Allocated Resources on Worker Nodes" && echo "======================================================================"
+  
+  for node_full in "${nodes[@]}"; do
+    local node_name="${node_full#node/}"
+    
+    if [[ "$output_format" == "json" ]]; then
+      local cpu_req mem_req cpu_lim mem_lim
+      cpu_req=$(kubectl describe "$node_full" 2>/dev/null | grep -A 10 "Allocated resources:" | grep "^[[:space:]]*cpu" | awk '{print $2}')
+      mem_req=$(kubectl describe "$node_full" 2>/dev/null | grep -A 10 "Allocated resources:" | grep "^[[:space:]]*memory" | awk '{print $2}')
+      cpu_lim=$(kubectl describe "$node_full" 2>/dev/null | grep -A 10 "Allocated resources:" | grep "^[[:space:]]*cpu" | awk '{print $4}')
+      mem_lim=$(kubectl describe "$node_full" 2>/dev/null | grep -A 10 "Allocated resources:" | grep "^[[:space:]]*memory" | awk '{print $4}')
+      
+      printf '{"node":"%s","cpu_request":"%s","memory_request":"%s","cpu_limit":"%s","memory_limit":"%s"}\n' "$node_name" "$cpu_req" "$mem_req" "$cpu_lim" "$mem_lim"
+    else
+      echo ""
+      echo "📦 $node_name"
+      echo "--------------------------------------------------"
+      kubectl describe "$node_full" 2>/dev/null | grep -A 10 "Allocated resources:" | grep -E "^[[:space:]]*(cpu|memory)" | head -2
+    fi
+  done
+  
+  [[ "$output_format" != "json" ]] && echo "======================================================================"
+}
+
+alias kna='knode-alloc'
+alias knaj='knode-alloc -j'
+
