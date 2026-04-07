@@ -1,6 +1,6 @@
 # alias
 alias gs='git status'
-alias gh='git log'
+alias glog='git log'
 gpsm(){
   git submodule init
   git submodule update
